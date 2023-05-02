@@ -8,7 +8,7 @@ using namespace std;
 //  @AlphabetStart: The first valid character in the alphabet. E.g. 'a'.
 //  @AlphabetEnd: The last valid character in the alphabet. E.g. 'z'.
 //  @PoolSize: Size of the pre-allocated node pool.
-template<char AlphabetStart, int AlphabetEnd, int PoolSize>
+template<char AlphabetStart, char AlphabetEnd, int PoolSize>
 class Trie {
  public:
   // A trie node.
@@ -34,7 +34,7 @@ class Trie {
     }
 
     // Inserts a string.
-    void Insert(const string& s) {
+    void Insert(const string_view s) {
       Node* curr = this;
       for (const auto c : s) {
         curr = (*curr)[c];
@@ -43,7 +43,7 @@ class Trie {
     }
 
     // Walks along a string. Returns nullptr if `s` doesn't exist.
-    Node* Walk(const string& s) {
+    Node* Walk(const string_view s) {
       Node* curr = this;
       for (const auto c : s) {
         curr = curr->at(c);
@@ -69,10 +69,10 @@ class Trie {
   Node* GetHead() { return head_; }
 
   // Inserts a string.
-  void Insert(const string& s) { head_->Insert(s); }
+  void Insert(const string_view s) { head_->Insert(s); }
 
   // Walks along a string. Returns nullptr if `s` doesn't exist.
-  Node* Walk(const string& s) { return head_->Walk(s); }
+  Node* Walk(const string_view s) { return head_->Walk(s); }
 
   // Resets the global node pool, invalidating all instances.
   static void ResetPool() { GetPoolSingleton().curr_index = 0; }
@@ -82,7 +82,7 @@ class Trie {
 
  private:
   // Node pool shared by all Trie instances.
-  struct Pool{
+  struct Pool {
     Node nodes[PoolSize];
     int curr_index = 0;
   };
