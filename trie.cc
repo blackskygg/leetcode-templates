@@ -16,7 +16,7 @@ class Trie {
    public:
     // Resets this node to empty status.
     Node& Reset() {
-      ch_.assign(AlphabetEnd-AlphabetStart+1, nullptr);
+      ch_.fill(nullptr);
       is_end = false;
       return *this;
     }
@@ -57,7 +57,7 @@ class Trie {
     bool is_end = false;
 
    private:
-    vector<Node*> ch_ = vector<Node*>(AlphabetEnd-AlphabetStart+1);
+    array<Node*, AlphabetEnd-AlphabetStart+1> ch_;
   };
 
   friend class Node;
