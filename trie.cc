@@ -5,19 +5,10 @@ using namespace std;
 // The class assumes the alphabet is a contiguous range of integers. E.g. 'a'-'z'.
 //
 // Template arguments:
-//  @AlphabetBase: The first valid character in the alphabet. E.g. 'a'.
-//  @AlphabetSize: Size of the alphabet. E.g. 26.
+//  @AlphabetStart: The first valid character in the alphabet. E.g. 'a'.
+//  @AlphabetEnd: The last valid character in the alphabet. E.g. 'z'.
 //  @PoolSize: Size of the pre-allocated node pool.
-//
-// Example usage:
-//   Trie<'a', 26, 10010> trie;
-//   trie.GetHead()->Insert("abcdefg");
-//   auto head = trie.GetHead();
-//   for (const char c : "abcde") {
-//     head = head->at(c);
-//   }
-//   if (head->is_end) cout << "abcde is in Trie" << endl;
-template<char AlphabetBase, int AlphabetSize, int PoolSize>
+template<char AlphabetStart, int AlphabetEnd, int PoolSize>
 class Trie {
  public:
   // A trie node.
@@ -25,19 +16,19 @@ class Trie {
    public:
     // Resets this node to empty status.
     Node& Reset() {
-      ch_.assign(AlphabetSize, nullptr);
+      ch_.assign(AlphabetEnd-AlphabetStart+1, nullptr);
       is_end = false;
       return *this;
     }
 
     // Walks by one character.
     Node* at(const char c) const {
-      return ch_.at(c-AlphabetBase);
+      return ch_.at(c-AlphabetStart);
     }
 
     // Inserts one characer.
     Node* operator[](char c) {
-      c -= AlphabetBase;
+      c -= AlphabetStart;
       if (this->ch_[c] == nullptr) this->ch_[c] = Trie::NewNode();
       return this->ch_[c];
     }
@@ -51,12 +42,22 @@ class Trie {
       curr->is_end = true;
     }
 
+    // Walks along a string. Returns nullptr if `s` doesn't exist.
+    Node* Walk(const string& s) {
+      Node* curr = this;
+      for (const auto c : s) {
+        curr = curr->at(c);
+        if (curr == nullptr) return nullptr;
+      }
+      return curr;
+    }
+
    public:
     // Is this a end node or not.
     bool is_end = false;
 
    private:
-    vector<Node*> ch_ = vector<Node*>(AlphabetSize);
+    vector<Node*> ch_ = vector<Node*>(AlphabetEnd-AlphabetStart+1);
   };
 
   friend class Node;
@@ -66,6 +67,12 @@ class Trie {
 
   // Returns the head node of this trie.
   Node* GetHead() { return head_; }
+
+  // Inserts a string.
+  void Insert(const string& s) { head_->Insert(s); }
+
+  // Walks along a string. Returns nullptr if `s` doesn't exist.
+  Node* Walk(const string& s) { return head_->Walk(s); }
 
   // Resets the global node pool, invalidating all instances.
   static void ResetPool() { GetPoolSingleton().curr_index = 0; }
@@ -81,8 +88,8 @@ class Trie {
   };
 
   static Pool& GetPoolSingleton() {
-    static auto* kPool = new Pool();
-    return *kPool;
+    static auto& kPool = *new Pool();
+    return kPool;
   }
 
   static Node* NewNode() {
