@@ -2,13 +2,14 @@
 using namespace std;
 
 // A trie implementation backed by a statically allocated node pool.
-// The class assumes the alphabet is a contiguous range of integers. E.g. 'a'-'z'.
+// The class assumes the alphabet is a contiguous range of integers. E.g.
+// 'a'-'z'.
 //
 // Template arguments:
 //  @AlphabetStart: The first valid character in the alphabet. E.g. 'a'.
 //  @AlphabetEnd: The last valid character in the alphabet. E.g. 'z'.
 //  @PoolSize: Size of the pre-allocated node pool.
-template<char AlphabetStart, char AlphabetEnd, int PoolSize>
+template <char AlphabetStart, char AlphabetEnd, int PoolSize>
 class Trie {
  public:
   // A trie node.
@@ -22,9 +23,7 @@ class Trie {
     }
 
     // Walks by one character.
-    Node* at(const char c) const {
-      return ch_.at(c-AlphabetStart);
-    }
+    Node* at(const char c) const { return ch_.at(c - AlphabetStart); }
 
     // Inserts one characer.
     Node* operator[](char c) {
@@ -57,7 +56,7 @@ class Trie {
     bool is_end = false;
 
    private:
-    array<Node*, AlphabetEnd-AlphabetStart+1> ch_;
+    array<Node*, AlphabetEnd - AlphabetStart + 1> ch_;
   };
 
   friend class Node;

@@ -36,9 +36,7 @@ class UnionFind {
   }
 
   // Returns the size of `x`'s cluster.
-  int64_t Size(int x) {
-    return size_[x];
-  }
+  int64_t Size(int x) { return size_[x]; }
 
  private:
   vector<int> parent_, rank_;

@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 // Computes x^pow (mod m).
 int64_t ModPow(const int64_t x, int64_t pow, const int64_t m) {
   int64_t base = x, ans = 1;
@@ -15,5 +14,5 @@ int64_t ModPow(const int64_t x, int64_t pow, const int64_t m) {
 
 // Computes the inverse of x (mod m).
 int64_t ModInverse(const int64_t x, const int64_t m) {
-  return ModPow(x, m-2);
+  return ModPow(x, m - 2);
 }

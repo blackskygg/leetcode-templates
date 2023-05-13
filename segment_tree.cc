@@ -91,7 +91,7 @@ class SegmentTree {
     value_[RightChild(root)] += lazy_[root] * (right - mid);
     lazy_[root] = 0;
   }
-  
+
  private:
   static int Mid(int left, int right) { return left + (right - left) / 2; }
   static int LeftChild(int root) { return 2 * root; }

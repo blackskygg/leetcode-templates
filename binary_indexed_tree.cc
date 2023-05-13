@@ -4,7 +4,7 @@ using namespace std;
 class BinaryIndexedTree {
  public:
   // Initializes the tree with `n` elements.
-  BinaryIndexedTree(int64_t n) : sums_(n+1, 0) {}
+  BinaryIndexedTree(int64_t n) : sums_(n + 1, 0) {}
 
   // Adds `n` to the element on `pos` (1-based).
   void Update(int64_t pos, int64_t n) {
@@ -25,9 +25,7 @@ class BinaryIndexedTree {
   }
 
  private:
-  inline int64_t LowBit(int64_t x) {
-    return x & -x;
-  }
+  inline int64_t LowBit(int64_t x) { return x & -x; }
 
  private:
   vector<int64_t> sums_;
