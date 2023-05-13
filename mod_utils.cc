@@ -12,3 +12,8 @@ int64_t ModPow(const int64_t x, int64_t pow, const int64_t m) {
   }
   return ans;
 }
+
+// Computes the inverse of x (mod m).
+int64_t ModInverse(const int64_t x, const int64_t m) {
+  return ModPow(x, m-2);
+}
